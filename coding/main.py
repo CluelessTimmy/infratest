@@ -20,15 +20,15 @@ def grabPublicJSON(jsonFile):
     with open(jsonFile,"r") as file:
         data = json.load(file)
     for i in data:
-        if data[i]["private"] == False:
-            publicData[i] = data[i]
+        if "private" in data[i]:
+            if data[i]["private"] == False:
+                publicData[i] = data[i]
     return publicData
 
 
-JSONValidation(r"C:\Users\Timothy\infraeng-interview\coding\example.json")
-if JSONValidation == True:
+validated = JSONValidation(r"C:\Users\Timothy\infraeng-interview\coding\example.json")
+if (validated == True):
     jsonData = grabPublicJSON(r"C:\Users\Timothy\infraeng-interview\coding\example.json")
-    print(jsonData)
     session = requests.Session()
     try:
         response = session.post("https://endpoint_of_webserver.com", verify=True,json = jsonData)  # alternatively verify can be set to a self signed certificate
